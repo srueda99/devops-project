@@ -1,0 +1,62 @@
+name: Backend CI (FastAPI)
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "app/Back/**"
+
+env:
+  IMAGE_NAME: srueda99/fastapi-backend
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      # Copies the code from the repo to the runner
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Creates and boots a builder to be used in the following steps
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+      # Authenticates into de Docker Registry (Docker Hub)
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # Gets the commit ID
+      - name: Get ID
+        run: echo "COMMIT_ID=${GITHUB_SHA::7}" >> $GITHUB_ENV
+      # Builds the image locally
+      - name: Build Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app/Back
+          load: true
+          tags: ${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # Scans the image for vulnerabilities using Trivy
+      - name: Security Scan (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+      # Pushes the image to Docker Hub
+      - name: Push Image
+        # Push only if the image passed the security scan
+        if: success()
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app/Back
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
+            ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
