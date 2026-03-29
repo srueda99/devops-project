@@ -15,7 +15,8 @@ RUN npm run build
 
 
 # --- RUNTIME STAGE ---
-FROM nginx:1.26-alpine
+FROM nginx:alpine
+# Fix CVEs
 RUN apk update && apk upgrade --no-cache zlib
 # Create the PID file and set permissions to the nginx user
 RUN touch /var/run/nginx.pid && \

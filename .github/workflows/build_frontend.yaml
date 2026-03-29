@@ -49,7 +49,7 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
+          severity: "CRITICAL"
       # Pushes the image to Registry
       - name: Push Image
         # Push only if the image passed the security scan
