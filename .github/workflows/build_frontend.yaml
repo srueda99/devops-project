@@ -2,7 +2,7 @@ name: Frontend CI (React)
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
     paths:
       - "app/Front/**"
 

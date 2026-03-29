@@ -2,7 +2,7 @@ name: Database CI (PostgreSQL)
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
     paths:
       - "app/DB/**"
 
