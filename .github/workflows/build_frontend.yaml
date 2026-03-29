@@ -50,7 +50,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-      # Pushes the image to Docker Hub
+      # Pushes the image to Registry
       - name: Push Image
         # Push only if the image passed the security scan
         if: success()
