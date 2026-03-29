@@ -7,7 +7,7 @@ on:
       - "app/DB/**"
 
 env:
-  IMAGE_NAME: srueda99/postgres-db
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/postgres-db
 
 jobs:
   build-image:
