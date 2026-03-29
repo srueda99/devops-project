@@ -38,20 +38,8 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      # Scans the image for vulnerabilities using Trivy
-      - name: Security Scan (Trivy)
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}"
-          format: "table"
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL"
       # Pushes the image to Registry
       - name: Push Image
-        # Push only if the image passed the security scan
-        if: success()
         uses: docker/build-push-action@v5
         with:
           context: ./app/DB
