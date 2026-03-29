@@ -7,7 +7,7 @@ on:
       - "app/Back/**"
 
 env:
-  IMAGE_NAME: srueda99/fastapi-backend
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/fastapi-backend
 
 jobs:
   build-image:
