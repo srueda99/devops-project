@@ -38,6 +38,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      # Pushes the image to Registry
       - name: Push Image
         uses: docker/build-push-action@v5
         with:
