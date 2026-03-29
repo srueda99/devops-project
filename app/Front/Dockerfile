@@ -1,6 +1,6 @@
 # --- BUILDER STAGE ---
 FROM node:24-alpine AS builder
-# Set environment variables
+# SCatch arg and set environment variables
 ARG API_URL
 ENV VITE_API_URL=$API_URL
 # Set working directory
