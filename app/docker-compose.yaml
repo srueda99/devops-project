@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  database:
+    image: postgres-db:v1.0
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dummy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  backend:
+    image: fastapi-backend:v1.0
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=dummy
+    depends_on:
+      - database
+  frontend:
+    image: nginx-frontend:v1.0
+    container_name: nginx-frontend
+    ports:
+      - "80:8080"
+    depends_on:
+      - backend
+volumes:
+  postgres_data:

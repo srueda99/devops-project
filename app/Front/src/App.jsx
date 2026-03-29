@@ -5,10 +5,11 @@ import logo from './assets/LogoSub.png'
 function App() {
 
   const [message, setMessage] = useState('')
+  const API_URL = import.meta.env.VITE_API_URL
 
   const getMessageFromAPI = async () => {
     try {
-      const response = await fetch('http://localhost:8000/message')
+      const response = await fetch(`${API_URL}/message`)
       const data = await response.json()
       setMessage(data.message)
     } catch (error) {
