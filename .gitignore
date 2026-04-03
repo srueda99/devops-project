@@ -1,4 +1,15 @@
+# System
 .DS_Store
 .MACOSX
 .vscode
 .env
+
+# Terraform
+*.tfstate.*
+*.terraform*
+*.tfvars
+*.tfplan
+*.tflog
+
+# Kubernetes
+*.kubeconfig
