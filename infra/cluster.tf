@@ -25,16 +25,9 @@ module "eks" {
       min_size       = 1
       max_size       = 3
       desired_size   = 2
-      instance_types = ["t3.medium"]
-      capacity_type  = "ON_DEMAND"
+      instance_types = ["t3.medium", "t3.large"]
+      capacity_type  = "SPOT"
     }
-    #economical_nodes = {
-    #  min_size       = 1
-    #  max_size       = 3
-    #  desired_size   = 2
-    #  instance_types = ["t3.medium", "t3.large"]
-    #  capacity_type  = "SPOT"
-    #}
   }
   enable_cluster_creator_admin_permissions = true
   access_entries = {
